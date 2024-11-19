@@ -3,33 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extra Credit Point</title>
+    <title>Garbanzo Points</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Enter Garbanzo Points Amount</h1>
-    <p>Enter your Garbanzo points amount a by nd we'll do the rest.</p>
+    <h1>Enter your Garbanzo Points</h1>
     <form id="calculatorForm" onsubmit="calculate(event)">
-        <div class="form-group">
-            <input type="number" id="inputNumber" placeholder="Enter a number" required>
-        </div>
-        <div class="form-group">
-            <button type="submit">Calculate</button>
-        </div>
+        <input type="number" id="inputNumber" placeholder="Enter a number" required>
     </form>
-    <div id="result"></div>
-
     <script>
         function calculate(event) {
-            event.preventDefault(); // Prevents page reload on form submission
-            const inputNumber = parseFloat(document.getElementById('inputNumber').value);
-            if (!isNaN(inputNumber)) {
-                const multiplied = inputNumber * 5;
-                const result = multiplied / 10000;
-                document.getElementById('result').textContent = `Result: ${result}`;
-            } else {
-                document.getElementById('result').textContent = 'Please enter a valid number.';
-            }
+            event.preventDefault();
+            // Functionality can be added here if needed.
         }
     </script>
 </body>
