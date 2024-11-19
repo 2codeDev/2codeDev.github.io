@@ -1,1 +1,82 @@
+/* style.css */
 
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #d3d3d3, #a9a9a9);
+    animation: backgroundShift 10s infinite alternate;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes backgroundShift {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: formPulse 3s infinite ease-in-out;
+}
+
+@keyframes formPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+input, button {
+    font-size: 1.2em;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #888;
+    border-radius: 5px;
+    outline: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #222;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
