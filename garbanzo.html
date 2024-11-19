@@ -1,1 +1,30 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbanzo Points Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Enter your Garbanzo Points</h1>
+    <form id="calculatorForm" onsubmit="calculate(event)">
+        <input type="number" id="inputNumber" placeholder="Enter a number" required>
+        <button type="submit">Enter</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        function calculate(event) {
+            event.preventDefault();
+            const inputNumber = parseFloat(document.getElementById('inputNumber').value);
+            if (!isNaN(inputNumber)) {
+                const multiplied = inputNumber * 5;
+                const result = multiplied / 10000;
+                document.getElementById('result').textContent = `Result: ${result}`;
+            } else {
+                document.getElementById('result').textContent = 'Please enter a valid number.';
+            }
+        }
+    </script>
+</body>
+</html>
