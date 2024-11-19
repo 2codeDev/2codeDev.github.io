@@ -17,6 +17,17 @@ h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
     color: #222;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ccc, 0 0 15px #aaa;
+    animation: glow 2s infinite ease-in-out;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ccc, 0 0 15px #aaa;
+    }
+    50% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ccc, 0 0 30px #aaa;
+    }
 }
 
 form {
@@ -26,7 +37,7 @@ form {
     gap: 15px;
 }
 
-input {
+input, button {
     font-size: 1.2em;
     padding: 10px;
     border: 2px solid #888;
@@ -44,12 +55,9 @@ input:focus {
 }
 
 button {
-    font-size: 1.2em;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
     background-color: #555;
     color: white;
+    border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
