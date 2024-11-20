@@ -9,20 +9,46 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #800080, #4b0082);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-size: 36px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #800080, 0 0 30px #800080, 0 0 40px #800080, 0 0 50px #800080;
     }
     input {
       padding: 10px;
       margin: 10px;
       font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
     }
     button {
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff00ff;
+      color: white;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00ff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff;
     }
     #result {
       margin-top: 20px;
       font-size: 18px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
     }
   </style>
 </head>
