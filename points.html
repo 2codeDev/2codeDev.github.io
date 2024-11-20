@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extra Credit Points Lookup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lookup your name for Extra Credit Point Balance</h1>
+  <input type="text" id="nameInput" placeholder="Enter a name">
+  <button onclick="lookupName()">Search</button>
+  <div id="result"></div>
 
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbww3aDcX-kwGU19GeLDCOo7S55ETMwZUYCM-Ezbf8IQRbiUHNyqFlYWF1y6p7dZa6AG/exec';
+
+    function lookupName() {
+      const name = document.getElementById('nameInput').value;
+      if (!name) {
+        document.getElementById('result').textContent = "Please enter a name.";
+        return;
+      }
+
+      fetch(`${scriptURL}?name=${encodeURIComponent(name)}`)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('result').textContent = data;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('result').textContent = "An error occurred.";
+        });
+    }
+  </script>
+</body>
+</html>
