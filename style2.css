@@ -1,0 +1,43 @@
+/* General reset and styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+.container {
+    text-align: center;
+}
+
+/* Button styling */
+.dice-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.dice-button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dice-icon {
+    margin-right: 8px;
+    font-size: 20px;
+}
