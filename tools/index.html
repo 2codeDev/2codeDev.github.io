@@ -89,11 +89,16 @@
 
 <script>
 async function fetchUserId(username) {
-    const res = await fetch(`https://users.roblox.com/v1/usernames/users`, {
+    // Use a public CORS proxy
+    const proxy = "basicproxy.2code-public.workers.dev";
+    const target = "https://users.roblox.com/v1/usernames/users";
+
+    const res = await fetch(proxy + encodeURIComponent(target), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usernames: [username] })
     });
+
     const data = await res.json();
     return data.data && data.data[0] ? data.data[0].id : null;
 }
@@ -106,7 +111,7 @@ async function fetchImages() {
 
     const userId = await fetchUserId(username);
     if (!userId) {
-        results.innerHTML = "User not found.";
+        results.innerHTML = "User not found or CORS blocked.";
         return;
     }
 
@@ -117,7 +122,9 @@ async function fetchImages() {
     sizes.forEach(size => {
         const url = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=false`;
 
-        fetch(url)
+        const proxied = "https://corsproxy.io/?" + encodeURIComponent(url);
+
+        fetch(proxied)
             .then(r => r.json())
             .then(imgData => {
                 const finalUrl = imgData.data[0].imageUrl;
