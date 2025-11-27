@@ -91,7 +91,7 @@ async function fetchUserId(username) {
 async function fetchImages() {
     const username = document.getElementById('username').value.trim();
     const results = document.getElementById('results');
-    const isCircular = document.getElementById('shape').value;
+    const isCircular = document.getElementById('shape').value === "true";
 
     if (!username) {
         results.innerHTML = "Please enter a username.";
@@ -106,32 +106,59 @@ async function fetchImages() {
         return;
     }
 
-    const sizes = [150, 252, 420, 720, 1080];
+    const sizes = [150, 420, 720];
     results.innerHTML = "";
 
     for (const size of sizes) {
         try {
-            const finalURL = `https://basicproxy.2code-public.workers.dev/thumbnails/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=${isCircular}`;
-
+            const finalURL = `https://basicproxy.2code-public.workers.dev/thumbnails/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=false`;
             const res = await fetch(finalURL);
             const imgData = await res.json();
             const imageUrl = imgData.data[0].imageUrl;
 
-            // Fetch the image as blob to enable proper download
-            const imgRes = await fetch(imageUrl);
-            const blob = await imgRes.blob();
-            const blobUrl = URL.createObjectURL(blob);
+            // Load image into <img> element
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = imageUrl;
+
+            await new Promise((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject();
+            });
+
+            let blobUrl;
+
+            if (isCircular) {
+                // Create canvas to crop circular
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+
+                ctx.clearRect(0, 0, size, size);
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+
+                ctx.drawImage(img, 0, 0, size, size);
+                blobUrl = await new Promise(resolve => canvas.toBlob(blob => resolve(URL.createObjectURL(blob))));
+            } else {
+                // Square download
+                const imgRes = await fetch(imageUrl);
+                const blob = await imgRes.blob();
+                blobUrl = URL.createObjectURL(blob);
+            }
 
             const card = document.createElement('div');
             card.className = 'img-card';
-
             card.innerHTML = `
                 <h3>${size}x${size}</h3>
-                <img src="${imageUrl}" ${isCircular === "true" ? 'style="border-radius:50%;"' : ''}/>
+                <img src="${imageUrl}" ${isCircular ? 'style="border-radius:50%;"' : ''}/>
                 <a class="download-btn" href="${blobUrl}" download="${username}_${size}.png">Download</a>
             `;
-
             results.appendChild(card);
+
         } catch (err) {
             console.error(err);
             const errorCard = document.createElement('div');
