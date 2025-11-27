@@ -90,7 +90,7 @@
 <script>
 async function fetchUserId(username) {
     // Use a public CORS proxy
-    const proxy = "basicproxy.2code-public.workers.dev";
+    const proxy = "https://basicproxy.2code-public.workers.dev";
     const target = "https://users.roblox.com/v1/usernames/users";
 
     const res = await fetch(proxy + encodeURIComponent(target), {
@@ -122,7 +122,7 @@ async function fetchImages() {
     sizes.forEach(size => {
         const url = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=false`;
 
-        const proxied = "https://corsproxy.io/?" + encodeURIComponent(url);
+        const proxied = "https://basicproxy.2code-public.workers.dev" + encodeURIComponent(url);
 
         fetch(proxied)
             .then(r => r.json())
