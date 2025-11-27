@@ -15,7 +15,7 @@
     h1 {
         font-size: 32px;
     }
-    input {
+    input, select {
         padding: 10px;
         border-radius: 10px;
         border: none;
@@ -57,12 +57,18 @@
         border-radius: 10px;
         text-decoration: none;
         color: white;
+        cursor: pointer;
     }
 </style>
 </head>
 <body>
 <h1>Roblox Avatar Headshot Fetcher</h1>
 <input type="text" id="username" placeholder="Enter Roblox Username">
+<br>
+<select id="shape">
+    <option value="false">Square Headshots</option>
+    <option value="true">Circular Headshots</option>
+</select>
 <br>
 <button onclick="fetchImages()">Fetch Images</button>
 <div id="results"></div>
@@ -85,6 +91,7 @@ async function fetchUserId(username) {
 async function fetchImages() {
     const username = document.getElementById('username').value.trim();
     const results = document.getElementById('results');
+    const isCircular = document.getElementById('shape').value;
 
     if (!username) {
         results.innerHTML = "Please enter a username.";
@@ -102,26 +109,37 @@ async function fetchImages() {
     const sizes = [150, 252, 420, 720, 1080];
     results.innerHTML = "";
 
-    sizes.forEach(size => {
-        const finalURL = `https://basicproxy.2code-public.workers.dev/thumbnails/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=false`;
+    for (const size of sizes) {
+        try {
+            const finalURL = `https://basicproxy.2code-public.workers.dev/thumbnails/v1/users/avatar-headshot?userIds=${userId}&size=${size}x${size}&format=Png&isCircular=${isCircular}`;
 
-        fetch(finalURL)
-            .then(r => r.json())
-            .then(imgData => {
-                const imageUrl = imgData.data[0].imageUrl;
+            const res = await fetch(finalURL);
+            const imgData = await res.json();
+            const imageUrl = imgData.data[0].imageUrl;
 
-                const card = document.createElement('div');
-                card.className = 'img-card';
+            // Fetch the image as blob to enable proper download
+            const imgRes = await fetch(imageUrl);
+            const blob = await imgRes.blob();
+            const blobUrl = URL.createObjectURL(blob);
 
-                card.innerHTML = `
-                    <h3>${size}x${size}</h3>
-                    <img src="${imageUrl}" />
-                    <a class="download-btn" href="${imageUrl}" download="${username}_${size}.png">Download</a>
-                `;
+            const card = document.createElement('div');
+            card.className = 'img-card';
 
-                results.appendChild(card);
-            });
-    });
+            card.innerHTML = `
+                <h3>${size}x${size}</h3>
+                <img src="${imageUrl}" ${isCircular === "true" ? 'style="border-radius:50%;"' : ''}/>
+                <a class="download-btn" href="${blobUrl}" download="${username}_${size}.png">Download</a>
+            `;
+
+            results.appendChild(card);
+        } catch (err) {
+            console.error(err);
+            const errorCard = document.createElement('div');
+            errorCard.className = 'img-card';
+            errorCard.textContent = `Failed to load ${size}x${size}`;
+            results.appendChild(errorCard);
+        }
+    }
 }
 </script>
 </body>
